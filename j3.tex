@@ -1,0 +1,32 @@
+% Dieser Befehl bestimmt die Klasse unseres Dokuments, sozusagen die Vorlage. Wir nehmen die Article-Klasse aus dem KOMA-Skript-Projekt. http://www.komascript.de/
+\documentclass[a4paper,10pt,bibtotocnumbered,smallheadings,pointednumbers]{scrartcl}
+% Genzi (http://kuniyoshi.fastmail.fm/xetex/) von Kazuomi Kuniyoshi hilft bei der automatischen Schriftauswahl beim Wechsel zwischen Japanisch und Deutsch. Standardmäßig nimmt unsere Version davon  Minion als westliche, Kozuka als japanische Font.
+%Für Mac die nächste Zeile auskommentieren und die darauffolgende löschen.
+% \usepackage[hoefler,hiragino]{genzi}
+\usepackage{genzi}
+\usepackage{xltxtra}
+\usepackage{lexikon}
+\usepackage{setspace}
+\usepackage[paper=a4paper,left=35mm,right=35mm,top=35mm,bottom=43mm]{geometry} 
+\defaultfontfeatures{Mapping=tex-text}
+\usepackage{hanging}
+\usepackage{multicol}
+\usepackage{ragged2e}
+\newenvironment{entry}{%
+\par\leavevmode\hangpara{1.5mm}{1}\ignorespaces}{\RaggedRight\par}
+\setlength{\parindent}{2em}
+\newcommand*{\mainentry}[1]{%
+{\sffamily\bfseries{#1}}%
+\markboth{#1}{#1}}
+% Ab hier beginnt der eigentliche Dokumententext.
+\begin{document}
+
+\pagestyle{dictheadings} %% use scrpage or fancyhdr for a differnt layout
+\setlength\parsep{0pt}	
+\setlength\itemsep{0pt}
+\begin{multicols}{2}
+
+\include{testdic}
+\end{multicols}
+\end{document}
+

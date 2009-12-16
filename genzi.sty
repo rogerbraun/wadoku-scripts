@@ -1,0 +1,291 @@
+%%
+%% This is file `genzi.sty' for XeLaTeX.
+%% This package is for including Japanese text
+%% in documents written in English, etc.
+%% The formatting rules are similar to
+%% JIS X 4051:2004 Formatting rules for Japanese documents
+%%
+%% Copyright Kazuomi Kuniyoshi 2009
+%% Licensed under the European Union Public Licence version 1.1
+%% http://ec.europa.eu/idabc/eupl
+%%
+\NeedsTeXFormat{LaTeX2e}[1995/12/01]
+\ProvidesPackage{genzi}[2009/07/05 Genzi XeLaTeX package]
+\RequirePackage{ifthen}
+\RequirePackage{fontspec}
+\newcommand*{\@Latnotfname}{}
+\newcommand*{\@Jpanotfname}{}
+\newcommand*{\@Jpanotfbfname}{}
+\newcommand*{\@Jpanotfscale}{}
+\newcommand*{\@rubyscale}{}
+\DeclareOption{times}%
+  {\renewcommand*{\@Latnotfname}{Times New Roman}}
+\DeclareOption{hoefler}%
+  {\renewcommand*{\@Latnotfname}{Hoefler Text}}  
+\DeclareOption{arno}%
+  {\renewcommand*{\@Latnotfname}{Arno Pro}}
+\DeclareOption{jenson}%
+  {\renewcommand*{\@Latnotfname}{Adobe Jenson Pro}}
+\DeclareOption{garamond}%
+  {\renewcommand*{\@Latnotfname}{Garamond Premier Pro}}
+\DeclareOption{minion}%
+  {\renewcommand*{\@Latnotfname}{Minion Pro}}
+\DeclareOption{lmodern}%
+  {\renewcommand*{\@Latnotfname}{Latin Modern}}  
+\DeclareOption{msmincho}%
+  {\renewcommand*{\@Jpanotfname}{MS Mincho}%
+   \renewcommand*{\@Jpanotfbfname}{MS Gothic}%
+   \ifthenelse{\equal{\@Latnotfname}{Arno Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.835}%
+      \renewcommand*{\@rubyscale}{0.4175}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Times New Roman}}%
+     {\renewcommand*{\@Jpanotfscale}{0.835}%
+      \renewcommand*{\@rubyscale}{0.4175}}{}%      
+   \ifthenelse{\equal{\@Latnotfname}{Adobe Jenson Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.884}%
+      \renewcommand*{\@rubyscale}{0.422}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Garamond Premier Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.876}%
+      \renewcommand*{\@rubyscale}{0.438}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Hoefler Text}}%
+     {\renewcommand*{\@Jpanotfscale}{0.876}%
+      \renewcommand*{\@rubyscale}{0.438}}{}%      
+   \ifthenelse{\equal{\@Latnotfname}{Minion Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.878}%
+      \renewcommand*{\@rubyscale}{0.439}}{}}  
+\DeclareOption{kozuka}%
+%  {\renewcommand*{\@Jpanotfname}{Kozuka Mincho Pr6N}%
+%   \renewcommand*{\@Jpanotfbfname}{Kozuka Gothic Pr6N M}%
+  {\renewcommand*{\@Jpanotfname}{Kozuka Mincho Pro-VI}%
+   \renewcommand*{\@Jpanotfbfname}{Kozuka Gothic Pro-VI}%
+   \ifthenelse{\equal{\@Latnotfname}{Arno Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.835}%
+      \renewcommand*{\@rubyscale}{0.4175}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Adobe Jenson Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.884}%
+      \renewcommand*{\@rubyscale}{0.422}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Garamond Premier Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.876}%
+      \renewcommand*{\@rubyscale}{0.438}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Hoefler Text}}%
+     {\renewcommand*{\@Jpanotfscale}{0.876}%
+      \renewcommand*{\@rubyscale}{0.438}}{}% 
+         \ifthenelse{\equal{\@Latnotfname}{Minion Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.878}%
+      \renewcommand*{\@rubyscale}{0.439}}{}}
+\DeclareOption{hiragino}%
+  {\renewcommand*{\@Jpanotfname}{Hiragino Mincho Pro W3}%
+   \renewcommand*{\@Jpanotfbfname}{Hiragino Kaku Gothic Pro W6}%
+   \ifthenelse{\equal{\@Latnotfname}{Arno Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.810}%
+      \renewcommand*{\@rubyscale}{0.405}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Hoefler Text}}%
+     {\renewcommand*{\@Jpanotfscale}{0.876}%
+      \renewcommand*{\@rubyscale}{0.438}}{}%      
+   \ifthenelse{\equal{\@Latnotfname}{Adobe Jenson Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.857}%
+      \renewcommand*{\@rubyscale}{0.4285}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Garamond Premier Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.849}%
+      \renewcommand*{\@rubyscale}{0.4245}}{}%
+   \ifthenelse{\equal{\@Latnotfname}{Minion Pro}}%
+     {\renewcommand*{\@Jpanotfscale}{0.852}%
+      \renewcommand*{\@rubyscale}{0.426}}{}}
+\ExecuteOptions{minion,kozuka}
+\ProcessOptions
+
+\newlength{\zw}
+\ifthenelse{\@ptsize=0}%
+  {\setlength{\zw}{10pt*\real\@Jpanotfscale}}{}
+\ifthenelse{\@ptsize=1}%
+  {\setlength{\zw}{10.95pt*\real\@Jpanotfscale}}{}
+\ifthenelse{\@ptsize=2}%
+  {\setlength{\zw}{12pt*\real\@Jpanotfscale}}{}
+
+\newcommand*\@zbskip{\hskip\z@ plus.01\zw minus.1\zw\relax}
+\newcommand*\@nbskip{\hskip.5\zw minus.5\zw\relax}
+\newcommand*\@nbfxskip{\hskip.5\zw\relax}
+\newcommand*\@sbskip{\hskip.25\zw minus.25\zw\relax}
+\newcommand*{\@Latnotf}{\fontspec{\@Latnotfname}}
+\newcommand*{\@Jpanfwotf}{\fontspec[BoldFont={\@Jpanotfbfname},RawFeature=+fwid;-halt;+hkna;-hwid;-palt;-pwid;-qwid;-twid,Scale=\@Jpanotfscale]{\@Jpanotfname}}
+\newcommand*{\@Jpanhwotf}{\fontspec[BoldFont={\@Jpanotfbfname},RawFeature=-fwid;-halt;+hwid;-palt;-pwid;-qwid;-twid,Scale=\@Jpanotfscale]{\@Jpanotfname}}
+\let\Latnotf=\@Latnotf
+\let\Jpanotf=\@Jpanfwotf
+
+\XeTeXinterchartokenstate=1
+\XeTeXcharclass`〈 4
+\XeTeXcharclass`《 4
+\XeTeXcharclass`「 4
+\XeTeXcharclass`『 4
+\XeTeXcharclass`【 4
+\XeTeXcharclass`〔 4
+\XeTeXcharclass`〖 4
+\XeTeXcharclass`〘 4
+\XeTeXcharclass`（ 4
+\XeTeXcharclass`［ 4
+\XeTeXcharclass`｟ 4
+\XeTeXcharclass`￥ 4
+\XeTeXcharclass`〉 5
+\XeTeXcharclass`》 5
+\XeTeXcharclass`」 5
+\XeTeXcharclass`』 5
+\XeTeXcharclass`】 5
+\XeTeXcharclass`〕 5
+\XeTeXcharclass`〗 5
+\XeTeXcharclass`〙 5
+\XeTeXcharclass`） 5
+\XeTeXcharclass`］ 5
+\XeTeXcharclass`｠ 5
+\XeTeXcharclass`、 5
+\XeTeXcharclass`， 5
+\XeTeXcharclass`。 6
+\XeTeXcharclass`・ 7
+\XeTeXcharclass`： 7
+\XeTeXcharclass`； 7
+\XeTeXcharclass`０ 8
+\XeTeXcharclass`１ 8
+\XeTeXcharclass`２ 8
+\XeTeXcharclass`３ 8
+\XeTeXcharclass`４ 8
+\XeTeXcharclass`５ 8
+\XeTeXcharclass`６ 8
+\XeTeXcharclass`７ 8
+\XeTeXcharclass`８ 8
+\XeTeXcharclass`９ 8
+\XeTeXcharclass`― 9
+\XeTeXcharclass`‥ 9
+%\XeTeXcharclass`… 9
+\XeTeXcharclass`々 10
+\XeTeXcharclass`ゃ 10
+\XeTeXcharclass`ゅ 10
+\XeTeXcharclass`ょ 10
+\XeTeXcharclass`ゝ 10
+\XeTeXcharclass`ゞ 10
+\XeTeXcharclass`ャ 10
+\XeTeXcharclass`ュ 10
+\XeTeXcharclass`ョ 10
+\XeTeXcharclass`ヽ 10
+\XeTeXcharclass`ヾ 10
+\XeTeXcharclass`ー 10
+\XeTeXcharclass`？ 11
+\XeTeXcharclass`！ 11
+\XeTeXcharclass`〜 12
+\XeTeXcharclass`～ 12
+\XeTeXcharclass`￥ 13
+\XeTeXcharclass"3000 16
+\XeTeXinterchartoks0 1={\@Jpanfwotf}
+\XeTeXinterchartoks0 4={\@Jpanhwotf}
+\XeTeXinterchartoks0 5={\@Jpanhwotf}
+\XeTeXinterchartoks0 6={\@Jpanhwotf}
+\XeTeXinterchartoks0 7={\@Jpanhwotf}
+\XeTeXinterchartoks0 8={\@Jpanhwotf}
+\XeTeXinterchartoks0 9={\@Jpanfwotf}
+\XeTeXinterchartoks0 10={\@Jpanfwotf}
+\XeTeXinterchartoks0 11={\@Jpanfwotf}
+\XeTeXinterchartoks0 12={\@Jpanfwotf}
+\XeTeXinterchartoks0 13={\@Jpanfwotf}
+\XeTeXinterchartoks1 0={\@Latnotf}
+\XeTeXinterchartoks1 1={\@zbskip}
+\XeTeXinterchartoks1 4={\@Jpanhwotf\@nbskip}
+\XeTeXinterchartoks1 5={\nobreak\@Jpanhwotf}
+\XeTeXinterchartoks1 6={\nobreak\@Jpanhwotf}
+\XeTeXinterchartoks1 7={\nobreak\@Jpanhwotf\@sbskip}
+\XeTeXinterchartoks1 8={\@Jpanhwotf\@sbskip}
+\XeTeXinterchartoks1 9={\@zbskip}
+\XeTeXinterchartoks1 10={\nobreak\@Jpanfwotf}
+\XeTeXinterchartoks1 11={\nobreak\@Jpanfwotf}
+\XeTeXinterchartoks1 12={\@zbskip}
+\XeTeXinterchartoks1 13={\@zbskip}
+\XeTeXinterchartoks1 255={\@zbskip}
+\XeTeXinterchartoks4 0={\@Latnotf}
+\XeTeXinterchartoks4 1={\nobreak\@Jpanfwotf}
+\XeTeXinterchartoks4 4={\nobreak\@Jpanhwotf}
+\XeTeXinterchartoks4 9={\@Jpanfwotf\@zbskip}
+\XeTeXinterchartoks4 255={\@zbskip}
+\XeTeXinterchartoks5 0={\@Latnotf\@nbskip}
+\XeTeXinterchartoks5 1={\@Jpanfwotf\@nbskip}
+\XeTeXinterchartoks5 4={\@Jpanhwotf\@nbskip}
+\XeTeXinterchartoks5 5={\nobreak\@Jpanhwotf}
+\XeTeXinterchartoks5 6={\@Jpanhwotf}
+\XeTeXinterchartoks5 7={\nobreak\@sbskip}
+\XeTeXinterchartoks5 8={\@nbskip}
+\XeTeXinterchartoks5 9={\@Jpanfwotf\@nbskip}
+\XeTeXinterchartoks5 10={\@Jpanfwotf}
+\XeTeXinterchartoks5 255={\@nbskip}
+\XeTeXinterchartoks6 0={\@Latnotf\@nbfxskip}
+\XeTeXinterchartoks6 1={\@Jpanfwotf\@nbfxskip}
+\XeTeXinterchartoks6 4={\@nbfxskip}
+\XeTeXinterchartoks6 8={\@nbfxskip}
+\XeTeXinterchartoks6 9={\@Jpanfwotf\@nbskip}
+\XeTeXinterchartoks6 255={\@nbfxskip}
+\XeTeXinterchartoks7 0={\@Latnotf}
+\XeTeXinterchartoks7 1={\@Jpanfwotf\@sbskip}
+\XeTeXinterchartoks7 4={\@sbskip}
+\XeTeXinterchartoks7 9={\@Jpanfwotf\@sbskip}
+\XeTeXinterchartoks7 255={\@sbskip}
+\XeTeXinterchartoks8 0={\@Latnotf\@sbskip}
+\XeTeXinterchartoks8 1={\@Jpanfwotf\@sbskip}
+\XeTeXinterchartoks8 8={\nobreak}
+\XeTeXinterchartoks8 12={\nobreak\@Jpanfwotf}
+\XeTeXinterchartoks8 255={\@sbskip}
+\XeTeXinterchartoks9 9={\nobreak}
+\XeTeXinterchartoks9 255={\@zbskip}
+\XeTeXinterchartoks10 0={\@Latnotf\@sbskip}
+\XeTeXinterchartoks10 4={\@Jpanhwotf\@nbskip}
+\XeTeXinterchartoks10 5={\@Jpanhwotf}
+\XeTeXinterchartoks10 6={\@Jpanhwotf}
+\XeTeXinterchartoks10 7={\@Jpanhwotf\@sbskip}
+\XeTeXinterchartoks10 8={\@Jpanhwotf\@sbskip}
+\XeTeXinterchartoks10 255={\@zbskip}
+\XeTeXinterchartoks11 0={\@Latnotf\@sbskip}
+\XeTeXinterchartoks11 16={\@Jpanhwotf}
+\XeTeXinterchartoks11 255={\@nbskip}
+\XeTeXinterchartoks12 8={\@Jpanhwotf}
+\XeTeXinterchartoks12 255={\@zbskip}
+\XeTeXinterchartoks13 8={\nobreak\@Jpanhwotf}
+\XeTeXinterchartoks13 255={\@zbskip}
+\XeTeXinterchartoks16 0={\@Latnotf}
+\XeTeXinterchartoks16 1={\@Jpanfwotf}
+\XeTeXinterchartoks16 255={\@zbskip}
+\XeTeXinterchartoks255 1={\@Jpanfwotf\@zbskip}
+\XeTeXinterchartoks255 4={\@Jpanhwotf\@zbskip}
+\XeTeXinterchartoks255 5={\nobreak\@Jpanhwotf\@zbskip}
+\XeTeXinterchartoks255 6={\nobreak\@Jpanhwotf\@zbskip}
+\XeTeXinterchartoks255 7={\nobreak\@Jpanhwotf\@zbskip}
+\XeTeXinterchartoks255 8={\@Jpanhwotf\@zbskip}
+\XeTeXinterchartoks255 9={\nobreak\@Jpanfwotf\@zbskip}
+\XeTeXinterchartoks255 10={\nobreak\@Jpanfwotf\@zbskip}
+\XeTeXinterchartoks255 11={\nobreak\@Jpanfwotf\@zbskip}
+\XeTeXinterchartoks255 12={\@Jpanfwotf\@zbskip}
+\XeTeXinterchartoks255 13={\@Jpanfwotf\@zbskip}
+\XeTeXinterchartoks255 16={\@Jpanfwotf\@zbskip}
+
+\newcommand*{\itz}[2][0]{%
+  \XeTeXinterchartokenstate=0%
+  {\addfontfeatures{RawFeature={+aalt=#1}}#2}%
+  \XeTeXinterchartokenstate=1}
+\newcommand*{\kmz}[2][0]{%
+  \XeTeXinterchartokenstate=0%
+  {\addfontfeatures{RawFeature={+nalt=#1}}#2}%
+  \XeTeXinterchartokenstate=1}
+\newenvironment{ja}{
+  \begin{fussy}%
+  \XeTeXlinebreaklocale="ja"
+  \XeTeXlinebreakskip=\z@ plus0.01\zw minus0.1\zw
+  \XeTeXcharclass`‘ 14
+  \XeTeXcharclass`“ 14
+  \XeTeXcharclass`’ 15
+  \XeTeXcharclass`” 15
+  \XeTeXinterchartoks0 1={\@Jpanfwotf\@sbskip}
+  \XeTeXinterchartoks1 0={\@Latnotf\@sbskip}
+  \XeTeXinterchartoks1 14={\@Jpanhwotf\@nbskip}
+  \XeTeXinterchartoks1 15={\@Jpanhwotf}
+  \XeTeXinterchartoks14 1={\nobreak\@Jpanfwotf}
+  \XeTeXinterchartoks15 1={\@Jpanfwotf\@nbskip}
+  \XeTeXinterchartoks255 14={\@Jpanfwotf\@zbskip}
+  \XeTeXinterchartoks255 15={\@Jpanfwotf\@zbskip}
+  \setlength{\parindent}{\zw}}
+  {\par\end{fussy}}
+%Geändert
+% Mediävalziffern. Für Versalziffern einfach "Numbers=Oldstyle" löschen.
+\setmainfont[Mapping=tex-text, Numbers=OldStyle]{\@Latnotfname}
