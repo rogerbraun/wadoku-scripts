@@ -246,7 +246,7 @@ class String
   # Return Hepburn sequences.
   def to_roma
     tmp = self.gsub(/(#{KANPAT})/) {|match| KANROM[match] }
-    tmp.gsub(/n'(?=[^aeiuoyn]|$)/, "n")
+    tmp.gsub!(/n'(?=[^aeiuoyn]|$)/, "n")
     tmp.gsub(/(.)-/) {case $~[1] when "o" then "ou" when "e" then "ei" else $~[1] + $~[1] end} 
   end
 

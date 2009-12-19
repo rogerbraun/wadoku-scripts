@@ -1,5 +1,5 @@
 % Dieser Befehl bestimmt die Klasse unseres Dokuments, sozusagen die Vorlage. Wir nehmen die Article-Klasse aus dem KOMA-Skript-Projekt. http://www.komascript.de/
-\documentclass[a4paper,10pt,bibtotocnumbered,smallheadings,pointednumbers]{scrartcl}
+\documentclass[a4paper,12pt,bibtotocnumbered,smallheadings,pointednumbers]{scrartcl}
 % Genzi (http://kuniyoshi.fastmail.fm/xetex/) von Kazuomi Kuniyoshi hilft bei der automatischen Schriftauswahl beim Wechsel zwischen Japanisch und Deutsch. Standardmäßig nimmt unsere Version davon  Minion als westliche, Kozuka als japanische Font.
 %Für Mac die nächste Zeile auskommentieren und die darauffolgende löschen.
 % \usepackage[hoefler,hiragino]{genzi}
@@ -12,7 +12,7 @@
 \usepackage{hanging}
 \usepackage{multicol}
 \usepackage{ragged2e}
-
+\usepackage[ngerman]{babel}
 \newenvironment{entry}{%
 \par\leavevmode\hangpara{1.5mm}{1}\ignorespaces}{\RaggedRight\par}
 %\setlength{\parindent}{2em}
@@ -28,89 +28,20 @@
 \newcommand*{\domaene}[1]{
 {\textit{#1}}}
 \newcommand*{\uebersetzung}[1]{#1}
-% Ab hier beginnt der eigentliche Dokumententext.
+
+\newcommand*{\sublemma}[1]{%
+{\textit{#1}}}%
+
+%\\ Ab hier beginnt der eigentliche Dokumententext.
 \begin{document}
 
 \pagestyle{dictheadings} %% use scrpage or fancyhdr for a differnt layout
 \setlength\parsep{0pt}	
 \setlength\itemsep{0pt}
 \begin{multicols}{2}
-\begin{haupteintrag}
-\begin{entry}
-\lemma{hayai [1]}
-\schreibung{早い; はやい [1]}  
-\pos{A}
-\domaene{}
-\uebersetzung{(<POS: Adj.>) früh; <GENKIrK3>frühzeitig; frühmorgens; verfrüht; vor der Zeit.}
-\end{entry}
-\end{haupteintrag}
-\begin{untereintraege}
-\begin{entry}
-\lemma{hayaiden'sha [1]}
-\schreibung{早い電車}  
-\pos{}
-\domaene{}
-\uebersetzung{die ersten Züge<Gen.: mpl>; die erste Bahn<Gen.: f>.}
-\end{entry}
-\begin{entry}
-\lemma{hayakuokiru}
-\schreibung{早く起きる}  
-\pos{}
-\domaene{}
-\uebersetzung{früh aufstehen.}
-\end{entry}
-\begin{entry}
-\lemma{hayakuneru}
-\schreibung{早く寝る}  
-\pos{}
-\domaene{}
-\uebersetzung{früh schlafen gehen; früh zu Bett gehen.}
-\end{entry}
-\begin{entry}
-\lemma{kimihakekkon'surunohamadahayai。}
-\schreibung{君は結婚するのはまだ早い。}  
-\pos{}
-\domaene{Bsp.}
-\uebersetzung{{<Dom.: Bsp.>} Du bist noch zu jung, um zu heiraten.}
-\end{entry}
-\begin{entry}
-\lemma{natsuhayorugaakerunogahayai。}
-\schreibung{夏は夜が明けるのが早い。}  
-\pos{}
-\domaene{Bsp.}
-\uebersetzung{{<Dom.: Bsp.>} Im Sommer wird es früh hell.}
-\end{entry}
-\begin{entry}
-\lemma{hayarebahayaihodoyoi。}
-\schreibung{早ければ早いほどよい。}  
-\pos{}
-\domaene{Bsp.}
-\uebersetzung{{<Dom.: Bsp.>} Je eher umso besser.}
-\end{entry}
-\begin{entry}
-\lemma{hayaihanashiga}
-\schreibung{早い話が}  
-\pos{}
-\domaene{}
-\uebersetzung{kurzum; in einem Wort; um mich kurz zu fassen; um gleich zur Sache zu kommen.}
-\end{entry}
-\begin{entry}
-\lemma{hayakutomo}
-\schreibung{早くとも}  
-\pos{}
-\domaene{}
-\uebersetzung{frühestens.}
-\end{entry}
-\begin{entry}
-\lemma{…gahayaika}
-\schreibung{…が早いか}  
-\pos{}
-\domaene{}
-\uebersetzung{nicht früher als ….}
-\end{entry}
-\end{untereintraege}
 
-%\include{testdic}
+\include{new_testdic}
+
 
 \end{multicols}
 \end{document}

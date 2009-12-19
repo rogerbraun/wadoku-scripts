@@ -1,7 +1,7 @@
 # coding: utf-8
 require "romkan-utf.rb"
 
-input = File.open("WaDoku.tab")
+input = File.open("WaDokusmall.tab")
 
 entries = Hash.new
 
@@ -14,50 +14,74 @@ entries = Hash.new
 #  puts "\\begin{entry}\n\\mainentry{#{entry[:lesung].to_roma}}\n{#{entry[:schreibung]}}{ \\textbf{#{entry[:pos]}}}\n{#{entry[:bedeutung]}}\\end{entry}"
 #end
 input.each do |line| 
-c = 0
+  c = 0
 
-id, schreibung, lesung, deutsch, eintragart, tonakzent, sechs, sieben, acht, neun, zehn, elf, zwoelf, dreizehn = line.split("\t")
+  #CLEANUP
+  line.gsub!("§","\\S")
+  line.gsub!("$","\\$")
+  line.gsub!("&","\\\\&")
+  line.gsub!("＆","\\&")
+  line.gsub!("_","\\_")
+  line.gsub!("^","\\^{}")
+  line.gsub!("%","\\%")
+  line.gsub!("#","\\#")
+  line.gsub!("~","\\textasciitilde")
+  line.gsub!("","")
+  #Auftrennen
+  id, schreibung, lesung, deutsch, eintragart, tonakzent, sechs, sieben, acht, neun, zehn, elf, zwoelf, dreizehn = line.split("\t")
 
-puts "ID:#{id}, Schreibung:#{schreibung}, Lesung:#{lesung}, Übersetzung:#{deutsch}, Eintragart:#{eintragart}"
 
-pos = deutsch[/<POS: (.).*?>/,1] 
-dom = deutsch[/<Dom\.: (.*?)>/,1] 
+  #Felder generieren
+  pos = deutsch[/<POS: (.*?)>/,1] 
+  dom = deutsch[/<Dom\.: (.*?)>/,1] 
 
-tex = "\\begin{entry}
-\\lemma{#{lesung.to_roma}}
-\\schreibung{#{schreibung}}  
-\\pos{#{pos}}
-\\domaene{#{dom}}
-\\uebersetzung{#{deutsch}}
-\\end{entry}"
+  #Felder modifizieren
+
+  schreibung.gsub!(/\[.\]/,"")
+  schreibung.gsub!("　","")
+  schreibung.gsub!(" ","")
+
+  lesung.gsub!(/\[.\]/,"")
+  deutsch.gsub!(/<Gen\.: (.*?)>/) {" (\\textit{#{$~[1]}})"}
+  deutsch.gsub!(/<FamN\.: (.*?)>/) {"\\textsc{#{$~[1]}}"}
+  deutsch.gsub!(/\(<.*?>\)/,"") 
+  deutsch.gsub!(/<.*?>/,"") 
+  #Texrepräsentation erstellen
+
+  tex = "\\lemma{#{lesung.to_roma.strip}}\n\\schreibung{#{schreibung.strip}}"  
+  tex += "\\pos{#{pos}}" if pos
+  tex += "\\domaene{#{dom}}" if dom
+  tex += "\\uebersetzung{#{deutsch.strip}}"
 
 
-if eintragart.strip == "HE" then
-  entries[schreibung] = Hash.new unless entries[schreibung]
-  entries[schreibung][:haupteintrag] = tex
-  entries[schreibung][:nebeneintraege] = Array.new unless entries[schreibung][:nebeneintraege]
-else
+  #Einträge in den Hash schreiben
+  if eintragart.strip == "HE" then
+    entries[schreibung] = Hash.new unless entries[schreibung]
+    entries[schreibung][:haupteintrag] = tex
+    entries[schreibung][:lesung] = lesung.to_roma
+    entries[schreibung][:nebeneintraege] = Array.new unless entries[schreibung][:nebeneintraege]
+  else
+    entries[eintragart] = Hash.new unless entries[eintragart]
+    entries[eintragart][:nebeneintraege] = Array.new unless entries[eintragart][:nebeneintraege]
+    entries[eintragart][:nebeneintraege].push(tex)
+    entries[eintragart][:lesung] = lesung.to_roma unless entries[eintragart][:lesung]
+  end
 
-  entries[eintragart] = Hash.new unless entries[eintragart]
-  entries[eintragart][:nebeneintraege] = Array.new unless entries[eintragart][:nebeneintraege]
-  entries[eintragart][:nebeneintraege].push(tex)
 end
 
-end
+#Einträge ausgeben
 
-puts entries.count
-
-entries.each do |x, y|
-  
+entries.sort{|x, y| x[1][:lesung]<=>y[1][:lesung]}.each do |x, y|
+  puts "\\begin{entry}"
   puts "\\begin{haupteintrag}"
-  puts y[:haupteintrag]
+  puts y[:haupteintrag] if y[:haupteintrag]
   puts "\\end{haupteintrag}"
   puts "\\begin{untereintraege}"
 
   y[:nebeneintraege].each do |eintrag|
-    puts eintrag
+    puts eintrag.gsub("\\lemma","\\sublemma")
   end  
   
-  puts "\\end{untereintrage}"
-
+  puts "\\end{untereintraege}"
+  puts "\\end{entry}"
 end
